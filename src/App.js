@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import Gamepage from "./components/game/Gamepage";
+import Homepage from "./components/home/Homepage";
+import Invite from "./components/home/Invite";
+import Login from "./components/Regin.js/Login";
+import Register from "./components/Regin.js/Register";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/gamepage/:_id" element={<Gamepage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/invite" element={<Invite />} />
+      </Routes>
     </div>
   );
 }

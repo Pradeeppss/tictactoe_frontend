@@ -1,13 +1,236 @@
+@import url("https://fonts.googleapis.com/css2?family=Bilbo&family=Epilogue&display=swap");
+
+/* utility classes */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+p {
+  margin: 0rem;
+}
+* {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.orange-color {
+  background-color: #f2c94c;
+}
+.blue-color {
+  background-color: #2f80ed;
+}
+.red-color {
+  background-color: #eb5757;
+}
+.font-bilbo {
+  font-family: "Bilbo", cursive;
+}
+.font-epilogue {
+  font-family: "Epilogue", sans-serif;
+}
+.f-small {
+  font-size: 14px;
+}
+.f-big {
+  font-size: 28px;
+}
+.f-bold {
+  font-weight: bolder;
+}
+.flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.w-full {
+  width: 100%;
+}
+.height-screen {
+  height: 100vh;
+}
+.w-screen {
+  width: 100vw;
+}
+.p-1 {
+  padding: 1rem;
+}
+.p-half {
+  padding: 0.5rem;
+}
+/* custom classes */
+
+/* entry page */
+.entry-page {
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  width: 100vw;
+}
+.heading-box {
+  text-align: center;
+  width: 50%;
+  padding-bottom: 4rem;
+}
+.entry-head-one {
+  margin: 0.5rem;
+  font-size: 2.25rem;
+}
+.entry-main-head {
+  font-size: 6rem;
+  font-weight: normal;
+  margin: 0;
+}
+.button-box {
+  flex-direction: column;
+  bottom: 0;
+}
+
+.btn {
+  padding: 20px;
+  margin: 0.75rem 0rem;
+  border-radius: 0.5rem;
+  border: none;
+  color: white;
+  box-shadow: 2px 2px 16px rgba(0, 0, 0, 0.16);
+}
+.m-0 {
+  margin: 0px;
+}
+/* newuser classes */
+.new-main {
+  align-items: center;
+  width: 100vw;
+  justify-content: center;
+}
+.new-box {
+  flex-direction: column;
+  align-items: center;
+}
+.new-head-box {
+  width: 58%;
+  text-align: center;
+}
+.new-heading {
+  position: absolute;
+  top: 0;
+  font-style: normal;
+  font-size: 1.75rem;
+  font-weight: bold;
+  padding: 1rem;
+  letter-spacing: -0.1rem;
+}
+.new-main-head {
+  font-size: 4rem;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* game page */
+.game-page {
+  flex-direction: column;
+  justify-content: space-between;
+}
+.game-heading {
+  font-weight: 700;
+  font-size: 1.75rem;
+  letter-spacing: -0.1rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+.svg-img {
+  width: 64px;
+  height: 64px;
+}
+.game-sec {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffe79e;
+}
+.outside-box {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.box-in-box {
+  margin-top: 7px;
+  width: 32%;
+  height: 105px;
+  background-color: white;
+  border: 0;
+}
+.sub-btn {
+  margin: 0;
+  margin-top: 2.5rem;
+}
+.svg-ingame {
+  width: 100%;
+  height: 100%;
+}
+
+/* Register page */
+
+.reg-head-div {
+  padding-top: 2rem;
+}
+.main-div {
+  padding: 0rem 0.4rem;
+}
+.reg-main-head {
+  letter-spacing: -0.1rem;
+  padding: 0.5rem 0rem;
+}
+.input-form {
+  padding: 1.2rem 0rem 2.8rem;
+}
+.inputs {
+  border: none;
+  outline: none;
+  background-color: #f4f4f4;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem;
+  margin: 0.7rem 0rem 1rem 0rem;
+}
+.success-btn {
+  background-color: #6fcf97;
+  position: absolute;
+  width: calc(100vw - 3rem);
+  bottom: -6rem;
+}
+
+/* login page */
+.log-main-sec {
+  padding: 1rem;
+  justify-content: space-between;
+}
+.back-btn {
+  background-color: white;
+  border: none;
+  text-align: start;
+}
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.25);
+}
+.p-tb {
+  padding: 1rem 0rem;
+}
+.p-rl {
+  padding: 0rem 1rem;
+}
+.play-btn {
+  margin-top: 1rem;
+}
+.allgames {
+  padding-top: 5rem;
+}
+.card-box {
+  gap: 1rem;
+}
+.new-btn {
+  color: white;
+  border-radius: 0.5rem;
+  background-color: #270f36;
+  padding: 1rem;
+  position: sticky;
+  bottom: 2rem;
+  transform: translateX(7rem);
 }
