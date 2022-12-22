@@ -9,7 +9,9 @@ function Homepage() {
   let [games, setgames] = useState([]);
   let findallgames = async (email) => {
     try {
-      let url = "http://localhost:5055/findallgames/" + email;
+      let url =
+        "https://tictactoe-production-b4be.up.railway.app/findallgames/" +
+        email;
       let { data } = await axios.get(url);
       setgames([...data.result]);
     } catch (error) {
