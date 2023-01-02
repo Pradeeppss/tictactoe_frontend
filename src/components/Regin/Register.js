@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  let navigate = useNavigate();
   let addnewUser = async (event) => {
     let { name, username, email, password } = event.target;
     let sendData = {
@@ -13,7 +15,9 @@ function Register() {
       let url = "https://tictactoe-production-b4be.up.railway.app/adduser";
       // let url = "http://localhost:5055/adduser";
       let { data } = await axios.post(url, sendData);
-      console.log(data.message);
+      if (data.status) {
+        navigate("/");
+      }
     } catch (error) {
       console.log(error);
     }
