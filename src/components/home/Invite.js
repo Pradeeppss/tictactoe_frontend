@@ -22,8 +22,8 @@ function Invite() {
       turn: user.email,
     };
     try {
-      let url = "http://localhost:5055/makenewGame";
-      // let url = "https://tictactoe-production-b4be.up.railway.app/makenewGame";
+      // let url = "http://localhost:5055/makenewGame";
+      let url = "https://tictactoe-production-b4be.up.railway.app/makenewGame";
       let { data } = await axios.post(url, sendData);
       console.log(data);
       if (data.status) {

@@ -10,10 +10,10 @@ function Homepage() {
 
   let findallgames = async (email) => {
     try {
-      let url = "http://localhost:5055/findallgames/" + email;
-      // let url =
-      //   "https://tictactoe-production-b4be.up.railway.app/findallgames/" +
-      //   email;
+      // let url = "http://localhost:5055/findallgames/" + email;
+      let url =
+        "https://tictactoe-production-b4be.up.railway.app/findallgames/" +
+        email;
       let { data } = await axios.get(url);
       console.log(data);
       setgames([...data.result]);

@@ -81,7 +81,8 @@ function Game() {
     let userdata = JSON.parse(localStorage.getItem("logindata"));
     setcurrUser({ ...userdata });
     try {
-      let url = `http://localhost:5055/getgamebyid/${_id}`;
+      // let url = `http://localhost:5055/getgamebyid/${_id}`;
+      let url = `https://tictactoe-production-b4be.up.railway.app/getgamebyid/${_id}`;
       let {
         data: { status, result },
       } = await axios.get(url);
@@ -126,7 +127,8 @@ function Game() {
       changeindex: index,
     };
     try {
-      let url = "http://localhost:5055/updategameStatus";
+      // let url = "http://localhost:5055/updategameStatus";
+      let url = `https://tictactoe-production-b4be.up.railway.app/updategameStatus`;
       let {
         data: { status, result },
       } = await axios.post(url, sendobj);
