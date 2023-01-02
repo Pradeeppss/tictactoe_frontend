@@ -10,8 +10,8 @@ function Register() {
       password: password.value,
     };
     try {
-      // let url = "https://tictactoe-production-b4be.up.railway.app/adduser";
-      let url = "http://localhost:5055/adduser";
+      let url = "https://tictactoe-production-b4be.up.railway.app/adduser";
+      // let url = "http://localhost:5055/adduser";
       let { data } = await axios.post(url, sendData);
       console.log(data.message);
     } catch (error) {
