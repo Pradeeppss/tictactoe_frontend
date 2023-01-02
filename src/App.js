@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Gamepage from "./components/game/Gamepage";
 import Homepage from "./components/home/Homepage";
 import Invite from "./components/home/Invite";
-import Login from "./components/Regin.js/Login";
-import Register from "./components/Regin.js/Register";
+import Login from "./components/Regin/Login";
+import Register from "./components/Regin/Register";
 
 function App() {
   return (

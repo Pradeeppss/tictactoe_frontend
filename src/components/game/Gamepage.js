@@ -10,7 +10,7 @@ function Gamepage() {
           onClick={() => {
             navigate("/");
           }}
-          className="fa back-btn fa-angle-left fa-2x"
+          className="fa back-btn fa-angle-left fa-2x "
         ></button>
         <p className="game-heading font-epilogue">Game with Pradeep</p>
         <div>

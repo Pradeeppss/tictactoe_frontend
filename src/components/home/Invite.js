@@ -1,11 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Sendmail from "../../functions/emailjs";
 
 function Invite() {
   let [user, setuser] = useState({});
   let navigate = useNavigate();
 
+  class emaildata {
+    constructor(to, from, message, reply) {
+      this.to_name = to;
+      this.from_name = from;
+      this.message = message;
+      this.reply_to = reply;
+    }
+  }
   let makenewgame = async (e) => {
     let sendData = {
       player_one: user.email,
@@ -14,9 +23,18 @@ function Invite() {
     };
     try {
       let url = "http://localhost:5055/makenewGame";
+      // let url = "https://tictactoe-production-b4be.up.railway.app/makenewGame";
       let { data } = await axios.post(url, sendData);
       console.log(data);
       if (data.status) {
+        Sendmail(
+          new emaildata(
+            e.target.email.value,
+            user.email,
+            "https://ubiquitous-wisp-d6ef9e.netlify.app/",
+            user.email
+          )
+        );
         navigate(`/gamepage/${data.result._id}`);
       } else {
         console.log(data.message);
@@ -25,6 +43,7 @@ function Invite() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     let userdata = localStorage.getItem("logindata");
     let user = JSON.parse(userdata);

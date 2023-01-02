@@ -5,11 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 function Game() {
   let navigate = useNavigate();
   let { _id } = useParams();
-  let [game, setgame] = useState({});
-  let [move, setmove] = useState("your turn");
-  let [disable, setdisable] = useState(false);
-  let [playnum, setplaynum] = useState(0);
-  let defaultarr = [
+  let [currUser, setcurrUser] = useState({});
+  let [myturn, setmyturn] = useState(false);
+  let [statusText, setstatusText] = useState("Start");
+
+  let defaultArr = [
     {
       value: null,
       right: [3, false],
@@ -74,24 +74,38 @@ function Game() {
       disabled: false,
     },
   ];
-  let [gameArr, setgameArr] = useState(defaultarr);
+  let [gameArr, setgameArr] = useState([...defaultArr]);
 
   let getgamedetails = async () => {
+    console.log(_id);
+    let userdata = JSON.parse(localStorage.getItem("logindata"));
+    setcurrUser({ ...userdata });
     try {
       let url = `http://localhost:5055/getgamebyid/${_id}`;
       let {
         data: { status, result },
       } = await axios.get(url);
-      setgame({ ...result });
       if (status) {
+        console.log(result);
         if (result.gameState.length !== 0) {
-          if (result.gameStatus === "opponent's turn") {
-            setmove("opponent's turn");
-            setdisable(true);
-          } else {
-            setmove("your turn");
-          }
           setgameArr([...result.gameState]);
+          if (result.gameStatus) {
+            if (result.turn === currUser.email) {
+              setstatusText("You Lost");
+            } else {
+              setstatusText("You Won");
+            }
+          } else {
+            if (result.turn === currUser.email) {
+              setstatusText("Your Move");
+            } else {
+              setstatusText("Opponent's Move");
+            }
+          }
+        }
+        if (result.turn === userdata.email) {
+          console.log("allowed access");
+          setmyturn(true);
         }
       }
     } catch (error) {
@@ -100,49 +114,39 @@ function Game() {
   };
 
   let updategamearr = async (index) => {
-    setdisable(true);
-    let curnum = playnum + 1;
-    setplaynum((currnum) => currnum + 1);
-    let currArr = gameArr;
-    let message = "";
-    let turnemail;
-    if (curnum % 2 === 0) {
-      currArr[index].value = 0;
-      message = "your turn";
-      turnemail = game.player_one;
-      currArr[index].disabled = true;
-    } else {
-      message = "opponent's turn";
-      turnemail = game.player_two;
-      currArr[index].value = 1;
-      currArr[index].disabled = true;
-    }
-    setgameArr([...currArr]);
+    setmyturn(false);
+    setgameArr((currarr) => {
+      currarr[index].value = 1;
+      return [...currarr];
+    });
+    let sendobj = {
+      game_id: _id,
+      user: currUser.email,
+      game: gameArr,
+      changeindex: index,
+    };
     try {
       let url = "http://localhost:5055/updategameStatus";
-      let { data } = await axios.post(url, {
-        game: currArr,
-        game_id: _id,
-        gamestatus: message,
-        turn: turnemail,
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  let submitGame = async () => {
-    try {
-      let url = "http://localhost:5055/checkgameStatus";
-      let { data } = await axios.post(url, { game: gameArr, turn: playnum });
-      console.log(data.message);
-      if (data.status) {
-        navigate("/");
+      let {
+        data: { status, result },
+      } = await axios.post(url, sendobj);
+      if (status) {
+        console.log(result);
+        if (result.gameStatus) {
+          if (result.turn === currUser.email) {
+            setstatusText("You Lost");
+          } else {
+            setstatusText("You Won");
+          }
+        } else {
+          setstatusText("Opponent's Move");
+        }
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     console.log("hi hi hi");
     getgamedetails();
@@ -150,31 +154,31 @@ function Game() {
   return (
     <>
       <section className="game-sec  flex">
-        <p className="p-half font-epilogue ">{move}</p>
+        <p className="p-half font-epilogue ">{statusText}</p>
         <div className="outside-box w-full flex">
           {gameArr.map((elem, ind) => {
             return (
               <button
-                disabled={elem.disabled}
+                disabled={elem.disabled || !myturn}
                 onClick={() => {
                   updategamearr(ind);
                 }}
                 key={ind}
                 className="box-in-box"
               >
-                {elem.value === 1 ? (
+                {elem.value === null ? null : elem.value === 1 ? (
                   <img
                     src={"/gamepage/Property 1=x.svg"}
                     className="svg-ingame"
                     alt=""
                   />
-                ) : elem.value === 0 ? (
+                ) : (
                   <img
                     src={"/gamepage/Property 1=o.svg"}
                     className="svg-ingame"
                     alt=""
                   />
-                ) : null}
+                )}
               </button>
             );
           })}
@@ -182,7 +186,7 @@ function Game() {
       </section>
       <button
         onClick={() => {
-          submitGame();
+          navigate("/");
         }}
         className="btn sub-btn orange-color "
       >
