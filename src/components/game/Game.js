@@ -122,15 +122,19 @@ function Game() {
 
   let updategamearr = async (index) => {
     setmyturn(false);
-    setgameArr((currarr) => {
+    let currarr = gameArr;
+
+    if (currUser.email === currarr.player_one) {
       currarr[index].value = 1;
-      return [...currarr];
-    });
+      setgameArr([...currarr]);
+    } else {
+      currarr[index].value = 0;
+      setgameArr([...currarr]);
+    }
     let sendobj = {
       game_id: _id,
       user: currUser.email,
-      game: gameArr,
-      changeindex: index,
+      game: currarr,
     };
     try {
       // let url = "http://localhost:5055/updategameStatus";
