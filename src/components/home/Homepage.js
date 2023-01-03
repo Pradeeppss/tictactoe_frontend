@@ -15,7 +15,7 @@ function Homepage() {
         "https://tictactoe-production-b4be.up.railway.app/findallgames/" +
         email;
       let { data } = await axios.get(url);
-      console.log(data);
+      // console.log(data);
       setgames([...data.result]);
     } catch (error) {
       console.log(error);

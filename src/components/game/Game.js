@@ -9,6 +9,7 @@ function Game() {
   let [myturn, setmyturn] = useState(false);
   let [statusText, setstatusText] = useState("Start");
   let [XorO, setXorO] = useState(0);
+  let [turnno, setturnno] = useState(0);
 
   let defaultArr = [
     {
@@ -88,24 +89,25 @@ function Game() {
         data: { status, result },
       } = await axios.get(url);
       if (status) {
-        console.log(result);
+        // console.log(result);
         if (result.gameState.length !== 0) {
           if (result.player_two === userdata.email) {
             setXorO(1);
           }
           setgameArr([...result.gameState]);
-          if (result.gameStatus) {
+          if (result.gameStatus === "Draw") {
+            setstatusText("Draw");
+          } else if (result.gameStatus) {
             if (result.turn === userdata.email) {
               setstatusText("You Lost");
             } else {
               setstatusText("You Won");
             }
           } else {
-            console.log(result.turn);
+            // console.log(result.turn);
             if (result.turn === userdata.email) {
               setstatusText("Your Move");
             } else {
-              console.log("not you");
               setstatusText("Opponent's Move");
             }
           }
@@ -122,12 +124,19 @@ function Game() {
 
   let updategamearr = async (index) => {
     setmyturn(false);
+    setturnno((currno) => {
+      return currno + 1;
+    });
     let currarr = gameArr;
-
-    if (currUser.email === currarr.player_one) {
+    console.log(XorO);
+    console.log(currUser);
+    if (XorO === 0) {
+      console.log("here");
       currarr[index].value = 1;
       setgameArr([...currarr]);
     } else {
+      console.log("not here");
+
       currarr[index].value = 0;
       setgameArr([...currarr]);
     }
@@ -135,6 +144,7 @@ function Game() {
       game_id: _id,
       user: currUser.email,
       game: currarr,
+      turn: turnno + 1,
     };
     try {
       // let url = "http://localhost:5055/updategameStatus";
@@ -143,8 +153,10 @@ function Game() {
         data: { status, result },
       } = await axios.post(url, sendobj);
       if (status) {
-        console.log(result);
-        if (result.gameStatus) {
+        // console.log(result);
+        if (result.gameStatus === "Draw") {
+          setstatusText("Draw");
+        } else if (result.gameStatus) {
           if (result.turn === currUser.email) {
             setstatusText("You Lost");
           } else {
