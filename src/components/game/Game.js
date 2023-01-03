@@ -8,6 +8,7 @@ function Game() {
   let [currUser, setcurrUser] = useState({});
   let [myturn, setmyturn] = useState(false);
   let [statusText, setstatusText] = useState("Start");
+  let [XorO, setXorO] = useState(0);
 
   let defaultArr = [
     {
@@ -89,17 +90,22 @@ function Game() {
       if (status) {
         console.log(result);
         if (result.gameState.length !== 0) {
+          if (result.player_two === userdata.email) {
+            setXorO(1);
+          }
           setgameArr([...result.gameState]);
           if (result.gameStatus) {
-            if (result.turn === currUser.email) {
+            if (result.turn === userdata.email) {
               setstatusText("You Lost");
             } else {
               setstatusText("You Won");
             }
           } else {
-            if (result.turn === currUser.email) {
+            console.log(result.turn);
+            if (result.turn === userdata.email) {
               setstatusText("Your Move");
             } else {
+              console.log("not you");
               setstatusText("Opponent's Move");
             }
           }
@@ -168,7 +174,7 @@ function Game() {
                 key={ind}
                 className="box-in-box"
               >
-                {elem.value === null ? null : elem.value === 1 ? (
+                {elem.value === null ? null : elem.value + XorO === 1 ? (
                   <img
                     src={"/gamepage/Property 1=x.svg"}
                     className="svg-ingame"
