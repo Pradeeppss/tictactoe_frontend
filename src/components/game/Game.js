@@ -9,7 +9,6 @@ function Game() {
   let [myturn, setmyturn] = useState(false);
   let [statusText, setstatusText] = useState("Start");
   let [XorO, setXorO] = useState(0);
-  let [turnno, setturnno] = useState(0);
 
   let defaultArr = [
     {
@@ -76,7 +75,7 @@ function Game() {
       disabled: false,
     },
   ];
-  let [gameArr, setgameArr] = useState([...defaultArr]);
+  let [game, setgame] = useState({});
 
   let getgamedetails = async () => {
     console.log(_id);
@@ -94,7 +93,7 @@ function Game() {
           if (result.player_two === userdata.email) {
             setXorO(1);
           }
-          setgameArr([...result.gameState]);
+          setgame({ ...result });
           if (result.gameStatus === "Draw") {
             setstatusText("Draw");
           } else if (result.gameStatus) {
@@ -111,6 +110,9 @@ function Game() {
               setstatusText("Opponent's Move");
             }
           }
+        } else {
+          result.gameState = defaultArr;
+          setgame({ ...result });
         }
         if (result.turn === userdata.email) {
           console.log("allowed access");
@@ -124,25 +126,28 @@ function Game() {
 
   let updategamearr = async (index) => {
     setmyturn(false);
-    let currno = turnno + 1;
-    setturnno(currno);
-    let currarr = gameArr;
+    let newgamestate = game.gameState;
     if (XorO === 0) {
       console.log("here");
-      currarr[index].value = 1;
-      setgameArr([...currarr]);
+      newgamestate[index].value = 1;
+      setgame((currgame) => {
+        currgame.gameState = newgamestate;
+        return { ...currgame };
+      });
     } else {
       console.log("not here");
 
-      currarr[index].value = 0;
-      setgameArr([...currarr]);
+      newgamestate[index].value = 0;
+      setgame((currgame) => {
+        currgame.gameState = newgamestate;
+        return { ...currgame };
+      });
     }
-    console.log(currno);
     let sendobj = {
       game_id: _id,
       user: currUser.email,
-      game: currarr,
-      turn: currno,
+      newGame: game,
+      turn: game.turn_no + 1,
     };
     try {
       let url = "http://localhost:5055/updategameStatus";
@@ -178,32 +183,34 @@ function Game() {
       <section className="game-sec  flex">
         <p className="p-half font-epilogue ">{statusText}</p>
         <div className="outside-box w-full flex">
-          {gameArr.map((elem, ind) => {
-            return (
-              <button
-                disabled={elem.disabled || !myturn}
-                onClick={() => {
-                  updategamearr(ind);
-                }}
-                key={ind}
-                className="box-in-box"
-              >
-                {elem.value === null ? null : elem.value + XorO === 1 ? (
-                  <img
-                    src={"/gamepage/Property 1=x.svg"}
-                    className="svg-ingame"
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    src={"/gamepage/Property 1=o.svg"}
-                    className="svg-ingame"
-                    alt=""
-                  />
-                )}
-              </button>
-            );
-          })}
+          {game.gameState
+            ? game.gameState.map((elem, ind) => {
+                return (
+                  <button
+                    disabled={elem.disabled || !myturn}
+                    onClick={() => {
+                      updategamearr(ind);
+                    }}
+                    key={ind}
+                    className="box-in-box"
+                  >
+                    {elem.value === null ? null : elem.value + XorO === 1 ? (
+                      <img
+                        src={"/gamepage/Property 1=x.svg"}
+                        className="svg-ingame"
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        src={"/gamepage/Property 1=o.svg"}
+                        className="svg-ingame"
+                        alt=""
+                      />
+                    )}
+                  </button>
+                );
+              })
+            : null}
         </div>
       </section>
       <button
