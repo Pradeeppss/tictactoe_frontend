@@ -10,8 +10,8 @@ function Login() {
       password: password.value,
     };
     try {
-      let url = "https://tictactoe-production-b4be.up.railway.app/login";
-      // let url = "http://localhost:5055/login";
+      // let url = "https://tictactoe-production-b4be.up.railway.app/login";
+      let url = "http://localhost:5055/login";
       let { data } = await axios.post(url, sendData);
       if (data.status) {
         localStorage.setItem("logindata", JSON.stringify(data.result));

@@ -83,8 +83,8 @@ function Game() {
     let userdata = JSON.parse(localStorage.getItem("logindata"));
     setcurrUser({ ...userdata });
     try {
-      // let url = `http://localhost:5055/getgamebyid/${_id}`;
-      let url = `https://tictactoe-production-b4be.up.railway.app/getgamebyid/${_id}`;
+      let url = `http://localhost:5055/getgamebyid/${_id}`;
+      // let url = `https://tictactoe-production-b4be.up.railway.app/getgamebyid/${_id}`;
       let {
         data: { status, result },
       } = await axios.get(url);
@@ -124,12 +124,9 @@ function Game() {
 
   let updategamearr = async (index) => {
     setmyturn(false);
-    setturnno((currno) => {
-      return currno + 1;
-    });
+    let currno = turnno + 1;
+    setturnno(currno);
     let currarr = gameArr;
-    console.log(XorO);
-    console.log(currUser);
     if (XorO === 0) {
       console.log("here");
       currarr[index].value = 1;
@@ -140,15 +137,16 @@ function Game() {
       currarr[index].value = 0;
       setgameArr([...currarr]);
     }
+    console.log(currno);
     let sendobj = {
       game_id: _id,
       user: currUser.email,
       game: currarr,
-      turn: turnno + 1,
+      turn: currno,
     };
     try {
-      // let url = "http://localhost:5055/updategameStatus";
-      let url = `https://tictactoe-production-b4be.up.railway.app/updategameStatus`;
+      let url = "http://localhost:5055/updategameStatus";
+      // let url = `https://tictactoe-production-b4be.up.railway.app/updategameStatus`;
       let {
         data: { status, result },
       } = await axios.post(url, sendobj);

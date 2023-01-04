@@ -12,11 +12,13 @@ function Register() {
       password: password.value,
     };
     try {
-      let url = "https://tictactoe-production-b4be.up.railway.app/adduser";
-      // let url = "http://localhost:5055/adduser";
+      // let url = "https://tictactoe-production-b4be.up.railway.app/adduser";
+      let url = "http://localhost:5055/adduser";
       let { data } = await axios.post(url, sendData);
       if (data.status) {
         navigate("/");
+      } else {
+        alert(data.message);
       }
     } catch (error) {
       console.log(error);
